@@ -1,5 +1,5 @@
 <?php
-// Database connection
+
 $host = 'localhost';
 $username = 'root';
 $password = '';
@@ -9,7 +9,6 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    // Handle form submission
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $publisherID = $_POST['publisherID'];
         $publisherName = $_POST['publisherName'];
@@ -111,7 +110,7 @@ try {
                             <md-icon slot="icon">add</md-icon>
                             Add Publisher
                         </md-filled-button>
-                        <md-outlined-button href="/3rd Year/CRUD System/navigations/publishers.php" class="cancel-btn">
+                        <md-outlined-button href="/CRUD System/navigations/publishers.php" class="cancel-btn">
                             Cancel
                         </md-outlined-button>
                     </div>

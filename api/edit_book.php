@@ -1,5 +1,4 @@
 <?php
-// Database connection
 $host = 'localhost';
 $username = 'root';
 $password = '';
@@ -9,11 +8,9 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    // Fetch authors and publishers for dropdowns
     $authors = $pdo->query("SELECT authorID, authorName FROM authorTable")->fetchAll();
     $publishers = $pdo->query("SELECT publisherID, publisherName FROM publisherTable")->fetchAll();
     
-    // Get book details
     $bookID = $_GET['id'];
     $stmt = $pdo->prepare("SELECT * FROM bookTable WHERE bookID = ?");
     $stmt->execute([$bookID]);
@@ -23,7 +20,6 @@ try {
         die("Book not found");
     }
     
-    // Handle form submission
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $title = $_POST['title'];
         $authorID = $_POST['authorID'];
@@ -42,7 +38,7 @@ try {
                               WHERE bookID = ?");
         $stmt->execute([$title, $authorID, $totalPages, $publisherID, $publicationDate, $price, $bookID]);
         
-        header("Location: /3rd Year/CRUD System/navigations/books.php");
+        header("Location: /CRUD System/navigations/books.php");
         exit();
     }
 } catch (PDOException $e) {
@@ -56,11 +52,9 @@ try {
     <meta charset="UTF-8">
     <title>Edit Book</title>
     <link rel="stylesheet" href="books.css">
-    <!-- Include your CSS and JS files as in books.php -->
 </head>
 <body>
     <section class="navbar">
-        <!-- Include your navigation as in books.php -->
     </section>
     
     <div class="mainContainer">
@@ -118,7 +112,7 @@ try {
                     </div>
                     
                     <button type="submit">Update Book</button>
-                    <a href="/3rd Year/CRUD System/navigations/books.php" class="cancel-btn">Cancel</a>
+                    <a href="/CRUD System/navigations/books.php" class="cancel-btn">Cancel</a>
                 </form>
             </div>
         </div>

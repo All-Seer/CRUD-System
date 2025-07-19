@@ -183,7 +183,6 @@ td {
   vertical-align: middle;
 }
 
-/* Deleted Books Section */
 .deleted-section {
   margin-top: 2.5rem;
   padding-top: 1.5rem;
@@ -215,7 +214,6 @@ td {
   color: #666;
 }
 
-/* Alert Messages */
 .alert {
   padding: 1rem;
   margin-bottom: 1.5rem;

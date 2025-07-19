@@ -1,5 +1,4 @@
 <?php
-// Database connection
 $host = 'localhost';
 $username = 'root';
 $password = '';
@@ -9,7 +8,6 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    // Get author details
     $authorID = $_GET['id'];
     $stmt = $pdo->prepare("SELECT * FROM authorTable WHERE authorID = ?");
     $stmt->execute([$authorID]);
@@ -19,7 +17,6 @@ try {
         die("Author not found");
     }
     
-    // Handle form submission
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $authorName = $_POST['authorName'];
         $biography = $_POST['biography'];
@@ -68,7 +65,7 @@ try {
                     </div>
                     
                     <button type="submit" class="submit-btn">Update Author</button>
-                    <a href="/3rd Year/CRUD System/navigations/authors.php" class="cancel-btn">Cancel</a>
+                    <a href="/CRUD System/navigations/authors.php" class="cancel-btn">Cancel</a>
                 </form>
             </div>
         </div>

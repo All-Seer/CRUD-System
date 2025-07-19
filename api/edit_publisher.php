@@ -1,5 +1,4 @@
 <?php
-// Database connection
 $host = 'localhost';
 $username = 'root';
 $password = '';
@@ -9,7 +8,6 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    // Get publisher details
     $publisherID = $_GET['id'];
     $stmt = $pdo->prepare("SELECT * FROM publisherTable WHERE publisherID = ?");
     $stmt->execute([$publisherID]);
@@ -19,7 +17,6 @@ try {
         die("Publisher not found");
     }
     
-    // Handle form submission
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $publisherName = $_POST['publisherName'];
         $address = $_POST['address'];
@@ -30,7 +27,7 @@ try {
                               WHERE publisherID = ?");
         $stmt->execute([$publisherName, $address, $publisherID]);
         
-        header("Location: /3rd Year/CRUD System/navigations/publishers.php");
+        header("Location: /CRUD System/navigations/publishers.php");
         exit();
     }
 } catch (PDOException $e) {
@@ -108,7 +105,7 @@ try {
                             <md-icon slot="icon">save</md-icon>
                             Update Publisher
                         </md-filled-button>
-                        <md-outlined-button href="/3rd Year/CRUD System/navigations/publishers.php" class="cancel-btn">
+                        <md-outlined-button href="/CRUD System/navigations/publishers.php" class="cancel-btn">
                             Cancel
                         </md-outlined-button>
                     </div>

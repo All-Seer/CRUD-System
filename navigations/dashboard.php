@@ -56,7 +56,7 @@ if (!isset($_SESSION['isAuthenticated']) || $_SESSION['isAuthenticated'] !== tru
 
           <mdc-dialog id="search-view">
             <div class="search-results">
-              <!-- Dynamic search results will be displayed here -->
+
             </div>
           </mdc-dialog>
         </header>
@@ -95,7 +95,6 @@ if (!isset($_SESSION['isAuthenticated']) || $_SESSION['isAuthenticated'] !== tru
                 $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 
-                // Fetch book data with author and publisher names
                 $query = "SELECT b.bookID, b.title, a.authorName, p.publisherName, b.totalPages, b.publicationDate, b.price 
                           FROM bookTable b
                           JOIN authorTable a ON b.authorID = a.authorID

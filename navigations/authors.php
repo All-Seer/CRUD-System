@@ -1,5 +1,4 @@
 <?php
-// Database connection
 $host = 'localhost';
 $username = 'root';
 $password = '';
@@ -9,7 +8,6 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    // Handle soft delete
     if (isset($_GET['delete'])) {
         $authorID = $_GET['delete'];
         $stmt = $pdo->prepare("UPDATE authorTable SET is_deleted = TRUE WHERE authorID = ?");
@@ -18,7 +16,6 @@ try {
         exit();
     }
     
-    // Handle restore
     if (isset($_GET['restore'])) {
         $authorID = $_GET['restore'];
         $stmt = $pdo->prepare("UPDATE authorTable SET is_deleted = FALSE WHERE authorID = ?");
@@ -80,7 +77,7 @@ try {
 
           <mdc-dialog id="search-view">
             <div class="search-results">
-              <!-- Dynamic search results will be displayed here -->
+
             </div>
           </mdc-dialog>
         </header>
@@ -90,7 +87,7 @@ try {
       <li><a href="./books.php">Book Management</a></li>
       <li><a href="./authors.php" class="active">Author Management</a></li>
       <li><a href="./publishers.php">Publisher Management</a></li>
-      <li style="float:right;"><a href="/3rd Year/CRUD System/api/add_author.php">Add Author</a></li>
+      <li style="float:right;"><a href="/CRUD System/api/add_author.php">Add Author</a></li>
     </ul>
   </section>
   <div class="mainContainer">
@@ -127,7 +124,7 @@ try {
                   <td><?= htmlspecialchars($row['authorName']) ?></td>
                   <td><?= htmlspecialchars(substr($row['biography'], 0, 100)) . (strlen($row['biography']) > 100 ? '...' : '') ?></td>
                   <td class="action-buttons">
-                    <a href="/3rd Year/CRUD System/api/edit_author.php?id=<?= urlencode($row['authorID']) ?>" class="edit-btn">Edit</a>
+                    <a href="/CRUD System/api/edit_author.php?id=<?= urlencode($row['authorID']) ?>" class="edit-btn">Edit</a>
                     <a href="authors.php?delete=<?= urlencode($row['authorID']) ?>" 
                       class="delete-btn"
                       onclick="return confirm('Mark this author as deleted?')">Delete</a>
@@ -138,7 +135,6 @@ try {
           </table>
         </div>
         
-        <!-- Deleted Authors Section -->
         <div class="deleted-section"> 
         <h2><span class="material-symbols-outlined">delete</span> Recently Deleted Authors</h2>
           <table class="deleted-authors">

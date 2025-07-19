@@ -1,5 +1,5 @@
 <?php
-// Database connection
+
 $host = 'localhost';
 $username = 'root';
 $password = '';
@@ -9,11 +9,11 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    // Fetch authors and publishers for dropdowns
+
     $authors = $pdo->query("SELECT authorID, authorName FROM authorTable")->fetchAll();
     $publishers = $pdo->query("SELECT publisherID, publisherName FROM publisherTable")->fetchAll();
     
-    // Handle form submission
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $bookID = $_POST['bookID'];
         $title = $_POST['title'];
@@ -27,7 +27,7 @@ try {
                               VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->execute([$bookID, $title, $authorID, $totalPages, $publisherID, $publicationDate, $price]);
         
-        header("Location: /3rd Year/CRUD System/navigations/books.php");
+        header("Location: /CRUD System/navigations/books.php");
         exit();
     }
 } catch (PDOException $e) {

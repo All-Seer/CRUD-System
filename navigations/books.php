@@ -1,5 +1,4 @@
 <?php
-// books.php
 $host = 'localhost';
 $username = 'root';
 $password = '';
@@ -9,7 +8,6 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    // Handle soft delete
     if (isset($_GET['delete'])) {
         $bookID = $_GET['delete'];
         $stmt = $pdo->prepare("UPDATE bookTable SET is_deleted = TRUE WHERE bookID = ?");
@@ -18,7 +16,6 @@ try {
         exit();
     }
     
-    // Handle restore
     if (isset($_GET['restore'])) {
         $bookID = $_GET['restore'];
         $stmt = $pdo->prepare("UPDATE bookTable SET is_deleted = FALSE WHERE bookID = ?");
@@ -80,7 +77,7 @@ try {
 
           <mdc-dialog id="search-view">
             <div class="search-results">
-              <!-- Dynamic search results will be displayed here -->
+
             </div>
           </mdc-dialog>
         </header>
@@ -90,7 +87,7 @@ try {
       <li><a href="./books.php" class="active">Book Management</a></li>
       <li><a href="./authors.php">Author Management</a></li>
       <li><a href="./publishers.php">Publisher Management</a></li>
-      <li style="float:right;"><a href="/3rd Year/CRUD System/api/add_book.php">Add Books</a></li>
+      <li style="float:right;"><a href="/CRUD System/api/add_book.php">Add Books</a></li>
     </ul>
   </section>
    <div class="mainContainer">
@@ -139,7 +136,7 @@ try {
                   <td><?= htmlspecialchars($row['publicationDate']) ?></td>
                   <td>$<?= number_format($row['price'], 2) ?></td>
                   <td>
-                    <a href="/3rd Year/CRUD System/api/edit_book.php?id=<?= urlencode($row['bookID']) ?>">Edit</a>
+                    <a href="/CRUD System/api/edit_book.php?id=<?= urlencode($row['bookID']) ?>">Edit</a>
                     <a href="books.php?delete=<?= urlencode($row['bookID']) ?>" 
                       onclick="return confirm('Mark this book as deleted?')">Delete</a>
                   </td>
@@ -149,7 +146,6 @@ try {
             </table>
         </div>
         
-        <!-- Deleted Books Section -->
         <div class="deleted-section">
           <h2><span class="material-symbols-outlined">delete</span> Recently Deleted Books</h2>
           <table class="deleted-books">

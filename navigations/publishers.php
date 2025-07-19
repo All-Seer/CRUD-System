@@ -1,5 +1,4 @@
 <?php
-// Database connection
 $host = 'localhost';
 $username = 'root';
 $password = '';
@@ -9,7 +8,6 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    // Handle soft delete
     if (isset($_GET['delete'])) {
         $publisherID = $_GET['delete'];
         $stmt = $pdo->prepare("UPDATE publisherTable SET is_deleted = TRUE WHERE publisherID = ?");
@@ -18,7 +16,6 @@ try {
         exit();
     }
     
-    // Handle restore
     if (isset($_GET['restore'])) {
         $publisherID = $_GET['restore'];
         $stmt = $pdo->prepare("UPDATE publisherTable SET is_deleted = FALSE WHERE publisherID = ?");
@@ -143,8 +140,7 @@ try {
             </tbody>
           </table>
         </div>
-        
-        <!-- Deleted Publishers Section -->
+
         <div class="deleted-section">
           <h2><span class="material-symbols-outlined">delete</span> Recently Deleted Publishers</h2>
           <div class="table-container">
