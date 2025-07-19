@@ -196,3 +196,21 @@ td {
   color: #333;
   vertical-align: middle;
 }
+
+.logout-fab-container {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 100;
+}
+
+.logout-fab {
+  --md-fab-container-color: #6d7522;
+  --md-fab-label-text-color: white;
+  --md-fab-icon-color: white;
+  transition: transform 0.2s ease;
+}
+
+.logout-fab:hover {
+  transform: scale(1.05);
+}

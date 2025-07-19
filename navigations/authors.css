@@ -236,6 +236,40 @@ td {
   color: #5f2120;
   border-left: 4px solid #ba1a1a;
 }
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+
+  display: inline-block;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.edit-btn {
+  background-color: #1976d2;
+  color: white;
+}
+
+.delete-btn {
+  background-color: #d32f2f;
+  color: white;
+}
+
+.restore-btn {
+  background-color: #388e3c;
+  color: white;
+}
+
+.action-btn .material-symbols-outlined {
+  font-size: 18px;
+}
 
 
 @media (max-width: 768px) {

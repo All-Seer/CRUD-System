@@ -1,7 +1,7 @@
 <?php
 session_start();
-if (!isset($_SESSION['isAuthenticated']) || $_SESSION['isAuthenticated'] !== true) {
-    header('Location: index.php');
+if (!isset($_SESSION['isAuthenticated'])) {
+    header('Location: ../index.php');
     exit();
 }
 ?>
@@ -41,6 +41,7 @@ if (!isset($_SESSION['isAuthenticated']) || $_SESSION['isAuthenticated'] !== tru
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 </head>
+
 
 <body>
   <section class="navbar">
@@ -121,6 +122,11 @@ if (!isset($_SESSION['isAuthenticated']) || $_SESSION['isAuthenticated'] !== tru
       </div>
     </div>
   </div>
+  <div class="logout-fab-container">
+    <md-fab class="logout-fab" label="Logout" aria-label="Logout" onclick="logout()">
+      <md-icon slot="icon">logout</md-icon>
+    </md-fab>
+  </div>
   
   <script>
     function searchTable(value) {
@@ -131,6 +137,15 @@ if (!isset($_SESSION['isAuthenticated']) || $_SESSION['isAuthenticated'] !== tru
         const text = row.textContent.toLowerCase();
         row.style.display = text.includes(value) ? '' : 'none';
       });
+    }
+    function logout() {
+      fetch('/CRUD System/logout.php')
+        .then(response => {
+          if (response.ok) {
+            window.location.href = '../index.php';
+          }
+        })
+        .catch(error => console.error('Error:', error));
     }
   </script>
 </body>

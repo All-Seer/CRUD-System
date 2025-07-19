@@ -1,4 +1,12 @@
 <?php
+session_start();
+if (!isset($_SESSION['isAuthenticated'])) {
+    header('Location: ../index.php');
+    exit();
+}
+?>
+
+<?php
 $host = 'localhost';
 $username = 'root';
 $password = '';
@@ -90,18 +98,53 @@ try {
       <li style="float:right;"><a href="/CRUD System/api/add_book.php">Add Books</a></li>
     </ul>
   </section>
-   <div class="mainContainer">
+  
+  <!-- Delete Confirmation Dialog -->
+  <md-dialog id="deleteDialog">
+    <div slot="headline">Confirm deletion</div>
+    <form slot="content" id="deleteForm" method="dialog">
+      Are you sure you wish to delete this book? This action can be undone by restoring from the Recently Deleted section.
+    </form>
+    <div slot="actions">
+      <md-text-button form="deleteForm" value="cancel">Cancel</md-text-button>
+      <md-text-button form="deleteForm" value="delete" autofocus>Delete</md-text-button>
+    </div>
+  </md-dialog>
+  
+  <!-- Restore Confirmation Dialog -->
+  <md-dialog id="restoreDialog">
+    <div slot="headline">Confirm restoration</div>
+    <form slot="content" id="restoreForm" method="dialog">
+      Are you sure you wish to restore this book?
+    </form>
+    <div slot="actions">
+      <md-text-button form="restoreForm" value="cancel">Cancel</md-text-button>
+      <md-text-button form="restoreForm" value="restore" autofocus>Restore</md-text-button>
+    </div>
+  </md-dialog>
+  
+  <!-- Success Notification Dialog -->
+  <md-dialog id="successDialog">
+    <div slot="headline" class="containerImg">
+      <span class="material-symbols-outlined" style="color: green; font-size: 48px;">check_circle</span>
+    </div>
+    <div slot="headline" class="dialogHead" style="text-align: center;">
+      Success
+    </div>
+    <div slot="content">
+      <div class="dialogContent" style="text-align: center;">
+        Operation completed successfully
+      </div>
+    </div>
+    <div slot="actions">
+      <md-text-button onclick="document.getElementById('successDialog').close()">Close</md-text-button>
+    </div>
+  </md-dialog>
+  
+  <div class="mainContainer">
     <div class="dashboard">
       <h1 class="dashboard-title">Books</h1>
       
-      <?php if (isset($_GET['deleted'])): ?>
-        <div class="alert alert-success">Book marked as deleted successfully!</div>
-      <?php endif; ?>
-      
-      <?php if (isset($_GET['restored'])): ?>
-        <div class="alert alert-success">Book restored successfully!</div>
-      <?php endif; ?>
-
       <div class="dashboard-content">
         <div class="table-container">
           <table class="book-table">
@@ -137,8 +180,7 @@ try {
                   <td>$<?= number_format($row['price'], 2) ?></td>
                   <td>
                     <a href="/CRUD System/api/edit_book.php?id=<?= urlencode($row['bookID']) ?>">Edit</a>
-                    <a href="books.php?delete=<?= urlencode($row['bookID']) ?>" 
-                      onclick="return confirm('Mark this book as deleted?')">Delete</a>
+                    <a href="#" onclick="confirmDelete('<?= urlencode($row['bookID']) ?>')">Delete</a>
                   </td>
                 </tr>
               <?php endwhile; ?>
@@ -171,8 +213,7 @@ try {
                   <td><?= htmlspecialchars($row['bookID']) ?></td>
                   <td><?= htmlspecialchars($row['title']) ?></td>
                   <td>
-                    <a href="books.php?restore=<?= urlencode($row['bookID']) ?>" 
-                      onclick="return confirm('Restore this book?')">Restore</a>
+                    <a href="#" onclick="confirmRestore('<?= urlencode($row['bookID']) ?>')">Restore</a>
                   </td>
                 </tr>
               <?php endwhile; ?>
@@ -193,6 +234,36 @@ try {
         row.style.display = text.includes(value) ? '' : 'none';
       });
     }
+    
+    // Delete confirmation
+    function confirmDelete(bookID) {
+      const dialog = document.getElementById('deleteDialog');
+      dialog.addEventListener('close', () => {
+        if (dialog.returnValue === 'delete') {
+          window.location.href = `books.php?delete=${bookID}`;
+        }
+      });
+      dialog.show();
+    }
+    
+    // Restore confirmation
+    function confirmRestore(bookID) {
+      const dialog = document.getElementById('restoreDialog');
+      dialog.addEventListener('close', () => {
+        if (dialog.returnValue === 'restore') {
+          window.location.href = `books.php?restore=${bookID}`;
+        }
+      });
+      dialog.show();
+    }
+    
+    // Show success dialog if URL has success parameters
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('deleted') || urlParams.has('restored')) {
+        document.getElementById('successDialog').show();
+      }
+    });
   </script>
 </body>
 </html>

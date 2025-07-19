@@ -1,4 +1,12 @@
 <?php
+session_start();
+if (!isset($_SESSION['isAuthenticated'])) {
+    header('Location: ../index.php');
+    exit();
+}
+?>
+
+<?php
 $host = 'localhost';
 $username = 'root';
 $password = '';
@@ -81,27 +89,56 @@ try {
       <li><a href="./books.php">Book Management</a></li>
       <li><a href="./authors.php">Author Management</a></li>
       <li><a href="./publishers.php" class="active">Publisher Management</a></li>
-      <li style="float:right;"><a href="add_publisher.php" >Add Publisher</a></li>
+      <li style="float:right;"><a href="/CRUD System/api/add_publisher.php">Add Publisher</a></li>
     </ul>
   </section>
+
+  <!-- Delete Confirmation Dialog -->
+  <md-dialog id="deleteDialog">
+    <div slot="headline">Confirm deletion</div>
+    <form slot="content" id="deleteForm" method="dialog">
+      Are you sure you wish to delete this publisher? This action can be undone by restoring from the Recently Deleted section.
+    </form>
+    <div slot="actions">
+      <md-text-button form="deleteForm" value="cancel">Cancel</md-text-button>
+      <md-text-button form="deleteForm" value="delete" autofocus>Delete</md-text-button>
+    </div>
+  </md-dialog>
+  
+  <!-- Restore Confirmation Dialog -->
+  <md-dialog id="restoreDialog">
+    <div slot="headline">Confirm restoration</div>
+    <form slot="content" id="restoreForm" method="dialog">
+      Are you sure you wish to restore this publisher?
+    </form>
+    <div slot="actions">
+      <md-text-button form="restoreForm" value="cancel">Cancel</md-text-button>
+      <md-text-button form="restoreForm" value="restore" autofocus>Restore</md-text-button>
+    </div>
+  </md-dialog>
+  
+  <!-- Success Notification Dialog -->
+  <md-dialog id="successDialog">
+    <div slot="headline" class="containerImg">
+      <span class="material-symbols-outlined" style="color: green; font-size: 48px;">check_circle</span>
+    </div>
+    <div slot="headline" class="dialogHead" style="text-align: center;">
+      Success
+    </div>
+    <div slot="content">
+      <div class="dialogContent" style="text-align: center;">
+        Operation completed successfully
+      </div>
+    </div>
+    <div slot="actions">
+      <md-text-button onclick="document.getElementById('successDialog').close()">Close</md-text-button>
+    </div>
+  </md-dialog>
+
   <div class="mainContainer">
     <div class="dashboard">
       <h1 class="dashboard-title">Publishers</h1>
       
-      <?php if (isset($_GET['deleted'])): ?>
-        <div class="alert alert-success">
-          <span class="material-symbols-outlined">check_circle</span>
-          Publisher marked as deleted successfully!
-        </div>
-      <?php endif; ?>
-      
-      <?php if (isset($_GET['restored'])): ?>
-        <div class="alert alert-success">
-          <span class="material-symbols-outlined">check_circle</span>
-          Publisher restored successfully!
-        </div>
-      <?php endif; ?>
-
       <div class="dashboard-content">
         <div class="table-container">
           <table class="publisher-table">
@@ -124,13 +161,11 @@ try {
                   <td><?= htmlspecialchars($row['publisherName']) ?></td>
                   <td><?= htmlspecialchars(substr($row['address'], 0, 50)) . (strlen($row['address']) > 50 ? '...' : '') ?></td>
                   <td class="action-buttons">
-                    <a href="edit_publisher.php?id=<?= urlencode($row['publisherID']) ?>" class="action-btn edit-btn">
+                    <a href="/CRUD System/api/edit_publisher.php?id=<?= urlencode($row['publisherID']) ?>" class="action-btn edit-btn">
                       <span class="material-symbols-outlined">edit</span>
                       Edit
                     </a>
-                    <a href="publishers.php?delete=<?= urlencode($row['publisherID']) ?>" 
-                       class="action-btn delete-btn"
-                       onclick="return confirm('Mark this publisher as deleted?')">
+                    <a href="#" onclick="confirmDelete('<?= urlencode($row['publisherID']) ?>')" class="action-btn delete-btn">
                       <span class="material-symbols-outlined">delete</span>
                       Delete
                     </a>
@@ -162,9 +197,7 @@ try {
                     <td><?= htmlspecialchars($row['publisherID']) ?></td>
                     <td><?= htmlspecialchars($row['publisherName']) ?></td>
                     <td>
-                      <a href="publishers.php?restore=<?= urlencode($row['publisherID']) ?>" 
-                         class="action-btn restore-btn"
-                         onclick="return confirm('Restore this publisher?')">
+                      <a href="#" onclick="confirmRestore('<?= urlencode($row['publisherID']) ?>')" class="action-btn restore-btn">
                         <span class="material-symbols-outlined">restore</span>
                         Restore
                       </a>
@@ -189,6 +222,36 @@ try {
         row.style.display = text.includes(value) ? '' : 'none';
       });
     }
+
+    // Delete confirmation
+    function confirmDelete(publisherID) {
+      const dialog = document.getElementById('deleteDialog');
+      dialog.addEventListener('close', () => {
+        if (dialog.returnValue === 'delete') {
+          window.location.href = `publishers.php?delete=${publisherID}`;
+        }
+      });
+      dialog.show();
+    }
+    
+    // Restore confirmation
+    function confirmRestore(publisherID) {
+      const dialog = document.getElementById('restoreDialog');
+      dialog.addEventListener('close', () => {
+        if (dialog.returnValue === 'restore') {
+          window.location.href = `publishers.php?restore=${publisherID}`;
+        }
+      });
+      dialog.show();
+    }
+    
+    // Show success dialog if URL has success parameters
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('deleted') || urlParams.has('restored')) {
+        document.getElementById('successDialog').show();
+      }
+    });
   </script>
 </body>
 </html>

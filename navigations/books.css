@@ -236,6 +236,23 @@ td {
   border-left: 4px solid #ba1a1a;
 }
 
+.containerImg {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+}
+
+.dialogHead {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.dialogContent {
+  padding: 0 24px 20px;
+}
+
 @media (max-width: 768px) {
   md-filled-text-field {
     width: 250px;
