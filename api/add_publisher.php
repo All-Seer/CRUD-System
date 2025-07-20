@@ -59,26 +59,6 @@ try {
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 </head>
 <body>
-    <section class="navbar">
-        <ul>
-            <li style="float:right;" class="search-bar">
-                <header class="header">
-                    <div class="search-container">
-                        <md-filled-text-field class="search-field" placeholder="Search">
-                            <md-icon slot="leading-icon">search</md-icon>
-                        </md-filled-text-field>
-                    </div>
-                </header>
-            </li>
-            <li class="navtitle">Books Store</li>
-            <li><a href="./dashboard.php">Dashboard</a></li>
-            <li><a href="./books.php">Book Management</a></li>
-            <li><a href="./authors.php">Author Management</a></li>
-            <li><a href="./publishers.php" class="active">Publisher Management</a></li>
-            <li style="float:right;"><a href="add_publisher.php">Add Publisher</a></li>
-        </ul>
-    </section>
-    
     <div class="mainContainer">
         <div class="dashboard">
             <h1 class="dashboard-title">Add New Publisher</h1>

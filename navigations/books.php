@@ -178,9 +178,15 @@ try {
                   <td><?= htmlspecialchars($row['totalPages']) ?></td>
                   <td><?= htmlspecialchars($row['publicationDate']) ?></td>
                   <td>$<?= number_format($row['price'], 2) ?></td>
-                  <td>
-                    <a href="/CRUD System/api/edit_book.php?id=<?= urlencode($row['bookID']) ?>">Edit</a>
-                    <a href="#" onclick="confirmDelete('<?= urlencode($row['bookID']) ?>')">Delete</a>
+                  <td class="action-buttons">
+                    <a href="/CRUD System/api/edit_book.php?id=<?= urlencode($row['bookID']) ?>" class="action-btn edit-btn">
+                      <span class="material-symbols-outlined">edit</span>
+                    Edit
+                  </a>
+                    <a href="#" onclick="confirmDelete('<?= urlencode($row['bookID']) ?>')" class="action-btn delete-btn">
+                      <span class="material-symbols-outlined">delete</span>
+                    Delete
+                  </a>
                   </td>
                 </tr>
               <?php endwhile; ?>
@@ -213,7 +219,10 @@ try {
                   <td><?= htmlspecialchars($row['bookID']) ?></td>
                   <td><?= htmlspecialchars($row['title']) ?></td>
                   <td>
-                    <a href="#" onclick="confirmRestore('<?= urlencode($row['bookID']) ?>')">Restore</a>
+                    <a href="#" onclick="confirmRestore('<?= urlencode($row['bookID']) ?>')" class="action-btn restore-btn">
+                      <span class="material-symbols-outlined">restore</span>
+                      Restore
+                    </a>
                   </td>
                 </tr>
               <?php endwhile; ?>
@@ -264,6 +273,9 @@ try {
         document.getElementById('successDialog').show();
       }
     });
+
+    alert("Hello! I am an alert box!!");
+
   </script>
 </body>
 </html>
