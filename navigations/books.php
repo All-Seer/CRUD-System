@@ -274,8 +274,6 @@ try {
       }
     });
 
-    alert("Hello! I am an alert box!!");
-
   </script>
 </body>
 </html>
