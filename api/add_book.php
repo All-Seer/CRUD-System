@@ -97,7 +97,7 @@ try {
                     </div>
                     
                     <button type="submit">Add Book</button>
-                    <a href="/3rd Year/CRUD System/navigations/books.php" class="cancel-btn">Cancel</a>
+                    <a href="/CRUD System/navigations/books.php" class="cancel-btn">Cancel</a>
                 </form>
             </div>
         </div>

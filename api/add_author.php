@@ -17,7 +17,7 @@ try {
         $stmt = $pdo->prepare("INSERT INTO authorTable (authorID, authorName, biography) VALUES (?, ?, ?)");
         $stmt->execute([$authorID, $authorName, $biography]);
         
-        header("Location: authors.php");
+        header("Location: /CRUD System/navigations/authors.php");
         exit();
     }
 } catch (PDOException $e) {

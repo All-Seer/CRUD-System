@@ -27,7 +27,7 @@ try {
                               WHERE authorID = ?");
         $stmt->execute([$authorName, $biography, $authorID]);
         
-        header("Location: authors.php");
+        header("Location: /CRUD System/navigations/authors.php");
         exit();
     }
 } catch (PDOException $e) {

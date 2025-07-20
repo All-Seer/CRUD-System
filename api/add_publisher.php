@@ -17,7 +17,7 @@ try {
         $stmt = $pdo->prepare("INSERT INTO publisherTable (publisherID, publisherName, address) VALUES (?, ?, ?)");
         $stmt->execute([$publisherID, $publisherName, $address]);
         
-        header("Location: publishers.php?added=true");
+        header("Location: /CRUD System/navigations/publishers.php?added=true");
         exit();
     }
 } catch (PDOException $e) {

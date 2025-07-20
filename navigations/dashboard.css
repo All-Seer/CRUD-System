@@ -140,7 +140,7 @@ md-filled-text-field {
   background-color: #fff;
   color: #000000;
   border-radius: 30px;
-  box-shadow: 0 5px 15px rgba(60, 48, 48, 0.35);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 table {
