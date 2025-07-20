@@ -13,14 +13,16 @@ try {
         id INT AUTO_INCREMENT PRIMARY KEY,
         authorID VARCHAR(255) NOT NULL UNIQUE,
         authorName VARCHAR(255) NOT NULL,
-        biography TEXT
+        biography TEXT,
+        is_deleted BOOLEAN DEFAULT FALSE
     )");
     
     $pdo->exec("CREATE TABLE IF NOT EXISTS publisherTable (
         id INT AUTO_INCREMENT PRIMARY KEY,
         publisherID VARCHAR(255) NOT NULL UNIQUE,
         publisherName VARCHAR(255) NOT NULL,
-        address TEXT
+        address TEXT,
+        is_deleted BOOLEAN DEFAULT FALSE
     )");
     
     $pdo->exec("CREATE TABLE IF NOT EXISTS bookTable (
@@ -36,6 +38,7 @@ try {
         FOREIGN KEY (authorID) REFERENCES authorTable(authorID),
         FOREIGN KEY (publisherID) REFERENCES publisherTable(publisherID)
     )");
+
     echo "Database setup completed successfully.";
 } catch (PDOException $e) {
     die("Database setup failed: " . $e->getMessage());

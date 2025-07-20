@@ -42,7 +42,6 @@ if (!isset($_SESSION['isAuthenticated'])) {
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 </head>
 
-
 <body>
   <section class="navbar">
     <ul>
@@ -54,14 +53,13 @@ if (!isset($_SESSION['isAuthenticated'])) {
               <md-icon slot="leading-icon">search</md-icon>
             </md-filled-text-field>
           </div>
-
           <mdc-dialog id="search-view">
             <div class="search-results">
-
             </div>
           </mdc-dialog>
         </header>
       </li>
+      <li style="float:right;"><a href="#" onclick="confirmSetup()">Generate Database</a></li>
       <li class="navtitle">Books Store</li>
       <li><a href="./dashboard.php" class="active">Dashboard</a></li>
       <li><a href="./books.php">Book Management</a></li>
@@ -69,6 +67,55 @@ if (!isset($_SESSION['isAuthenticated'])) {
       <li><a href="./publishers.php">Publisher Management</a></li>
     </ul>
   </section>
+  
+  <!-- Database Setup Confirmation Dialog -->
+  <md-dialog id="setupDialog">
+    <div slot="headline">Confirm Database Setup</div>
+    <form slot="content" id="setupForm" method="dialog">
+      This will create or reset the bookstore database with all required tables. Are you sure you want to proceed?
+    </form>
+    <div slot="actions">
+      <md-text-button form="setupForm" value="cancel">Cancel</md-text-button>
+      <md-text-button form="setupForm" value="setup" autofocus>Setup Database</md-text-button>
+    </div>
+  </md-dialog>
+  
+  <!-- Success Notification Dialog -->
+  <md-dialog id="successDialog">
+    <div slot="headline" class="containerImg">
+      <span class="material-symbols-outlined" style="color: green; font-size: 48px;">check_circle</span>
+    </div>
+    <div slot="headline" class="dialogHead" style="text-align: center;">
+      Success
+    </div>
+    <div slot="content">
+      <div class="dialogContent" style="text-align: center;">
+        Database setup completed successfully.
+      </div>
+    </div>
+    <div slot="actions">
+      <md-text-button onclick="document.getElementById('successDialog').close()">Close</md-text-button>
+    </div>
+  </md-dialog>
+  
+  <!-- Error Notification Dialog -->
+  <md-dialog id="errorDialog">
+    <div slot="headline" class="containerImg">
+      <span class="material-symbols-outlined" style="color: red; font-size: 48px;">error</span>
+    </div>
+    <div slot="headline" class="dialogHead" style="text-align: center;">
+      Error
+    </div>
+    <div slot="content">
+      <div class="dialogContent" style="text-align: center;" id="errorMessage">
+        Database setup failed.
+      </div>
+    </div>
+    <div slot="actions">
+      <md-text-button onclick="document.getElementById('errorDialog').close()">Close</md-text-button>
+    </div>
+  </md-dialog>
+
   <div class="mainContainer">
     <div class="dashboard">
       <h1 class="dashboard-title">Dashboard</h1>
@@ -138,6 +185,7 @@ if (!isset($_SESSION['isAuthenticated'])) {
         row.style.display = text.includes(value) ? '' : 'none';
       });
     }
+    
     function logout() {
       fetch('/CRUD System/logout.php')
         .then(response => {
@@ -147,7 +195,35 @@ if (!isset($_SESSION['isAuthenticated'])) {
         })
         .catch(error => console.error('Error:', error));
     }
+    
+    function confirmSetup() {
+      const dialog = document.getElementById('setupDialog');
+      dialog.addEventListener('close', () => {
+        if (dialog.returnValue === 'setup') {
+          setupDatabase();
+        }
+      });
+      dialog.show();
+    }
+    
+    function setupDatabase() {
+      fetch('/CRUD System/api/setup_database.php')
+        .then(response => {
+          if (response.ok) {
+            return response.text();
+          }
+          throw new Error('Network response was not ok.');
+        })
+        .then(text => {
+          document.getElementById('successDialog').show();
+          // Reload the page after a short delay to show updated data
+          setTimeout(() => window.location.reload(), 2000);
+        })
+        .catch(error => {
+          document.getElementById('errorMessage').textContent = error.message;
+          document.getElementById('errorDialog').show();
+        });
+    }
   </script>
 </body>
-
 </html>
